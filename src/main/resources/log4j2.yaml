@@ -1,0 +1,43 @@
+Configuration:
+  status: debug
+  name: YAMLConfigTest
+  # properties:
+  #   property:
+  #     name: filename
+  #     value: target/test-yaml.log
+  thresholdFilter:
+    level: debug
+  appenders:
+    Rewrite:
+      name: updateData
+      AppenderRef:
+        ref: TPL
+    Console:
+      name: TPL
+      JsonTemplateLayout:
+        charset: euc-kr
+        locationInfoEnabled: true
+        eventTemplateUri: classpath:JsonEventLayoutV1.json
+        eventTemplateAdditionalField:
+          key: data
+          value: '{"$resolver":"data"}'
+          format: JSON
+    # File:
+    #   name: File
+    #   fileName: ${filename}
+    #   PatternLayout:
+    #     Pattern: "%d %p %C{1.} [%t] %m%n"
+    #   Filters:
+    #     ThresholdFilter:
+    #       level: info
+  Loggers:
+    logger:
+      name: com.sample.demo.guide
+      level: debug
+      additivity: false
+      AppenderRef:
+        ref: updateData
+    Root:
+      level: debug
+      AppenderRef:
+        ref: STDOUT
