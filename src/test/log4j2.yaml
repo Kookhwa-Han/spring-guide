@@ -7,7 +7,7 @@ Configuration:
   #     value: target/test-yaml.log
   thresholdFilter:
     level: debug
-  appenders:
+  appenders
     Rewrite:
       name: updateData
       AppenderRef:
@@ -37,6 +37,10 @@ Configuration:
       additivity: false
       AppenderRef:
         ref: updateData
+    spring:
+      name: org.springframework
+      AppenderRef:
+        ref: STDOUT
     Root:
       level: debug
       AppenderRef:

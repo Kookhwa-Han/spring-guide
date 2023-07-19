@@ -14,9 +14,16 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${consoleLayout}" />
         </Console>
-		<Console name="TPL" target="SYSTEM_OUT"  ignoreExceptions="false">
+
+		<Rewrite name="updateData">
+			<AppenderRef ref="TPL"/>	
+		</Rewrite>
+
+
+		<Console name="TPL" target="SYSTEM_OUT">
+		  <!-- <JsonLayout/> -->
             <JsonTemplateLayout charset="euc-kr" locationInfoEnabled="true" eventTemplateUri="classpath:JsonEventLayoutV1.json">
-				<eventTemplateAdditinalField key="data" value='{"$resolver":"data"}' format="JSON"/>
+				<eventTemplateAdditionalField key="data" value='{"$resolver":"data"}' format="JSON"/>
 			</JsonTemplateLayout>
         </Console>
 
@@ -65,23 +72,26 @@
     <!--TRACE > DEBUG > INFO > WARN > ERROR > FATAL -->
     <!--Log가 찍힐 대상 설정.-->
     <Loggers>
-        <!-- 스프링 프레임워크에서 찍는건 level을 info로 설정 -->
-        <logger name="org.springframework" level="info" additivity="false" >
-            <AppenderRef ref="console" />
-            <AppenderRef ref="file" />
-        </logger>
-
-
-		<logger name="com.sample.demo.guide" level="debug" additivity="false" >
+		<logger name="com.sample.demo.guide" level="debug" >
             <AppenderRef ref="TPL" />
         </logger>
 
-        <!-- rolling file에는 debug, console에는 info 분리하여 처리 가능하다. -->
-        <logger name="com.sample.demo.guide" level="warn" additivity="true" >
-            <AppenderRef ref="daily_error" />
+
+        <!-- 스프링 프레임워크에서 찍는건 level을 info로 설정 -->
+        <logger name="org.springframework" level="info" additivity="false" >
+            <AppenderRef ref="console" />
+            <!-- <AppenderRef ref="file" /> -->
         </logger>
 
+
+
+        <!-- rolling file에는 debug, console에는 info 분리하여 처리 가능하다. -->
+        <!-- <logger name="com.sample.demo.guide.*" level="warn" additivity="true" >
+            <AppenderRef ref="daily_error" />
+        </logger> -->
+
 		<!-- ROOT logger-->
-        <Root level="info"></Root>
+        <Root level="info">
+		</Root>
     </Loggers>
 </Configuration>
