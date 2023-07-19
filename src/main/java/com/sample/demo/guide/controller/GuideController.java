@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sample.demo.guide.entity.Member;
 import com.sample.demo.guide.service.GuideService;
+import com.sample.demo.guide.spring_config.AOP.GuideTime;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
@@ -26,11 +27,13 @@ public class GuideController {
 	@Autowired
 	GuideService service;
 
+	@GuideTime
 	@GetMapping("/{id}")
 	public ResponseEntity<List<Member>> getTeam(@PathVariable("id") int id) {
 		return ResponseEntity.ok().body(service.findByTeam(id));
 	}
 
+	// @GuideTime
 	@GetMapping()
 	public ResponseEntity<String> guide() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
